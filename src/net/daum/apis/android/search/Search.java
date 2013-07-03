@@ -12,6 +12,17 @@ import net.daum.apis.android.conn.ResponseData;
 
 
 public interface Search {
+	
+	public static final int BOARD = 0;
+	public static final int VIDEO = 1;
+	public static final int BLOG = 2;
+	public static final int WEB = 3;
+	public static final int IMAGE = 4;
+	public static final int KNOWLEDGE = 5;
+	public static final int BOOK = 6;
+	public static final int CAFE = 7;
+	
+	
 	 /**
 	  * Http Request를 생성한다. 
 	  * @param url 리퀘스트를 요청할 url
