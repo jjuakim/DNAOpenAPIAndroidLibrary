@@ -20,9 +20,9 @@ public interface RequestListener {
 	/**
 	 * On complete.
 	 *
-	 * @param object the object
+	 * @param responseData the response data
 	 */
-	public abstract void onComplete(Object object);
+	public abstract void onComplete(ResponseData responseData);
 	
 	/**
 	 * On daum opn api sdk exception.

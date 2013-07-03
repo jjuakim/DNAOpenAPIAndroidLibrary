@@ -9,6 +9,7 @@ import net.daum.apis.android.common.DaumOpenApiCommon.OutputType;
 import net.daum.apis.android.common.DaumOpenApiCommon.SortType;
 import net.daum.apis.android.conn.RequestListener;
 import net.daum.apis.android.conn.RequestUrl;
+import net.daum.apis.android.conn.ResponseData;
 import net.daum.apis.android.search.datamodel.BoardResult;
 import net.daum.apis.android.search.datamodel.BoardResult.BoardData;
 import android.os.AsyncTask;
@@ -98,12 +99,12 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 	
 	
 	@Override
-	public Object run() throws InterruptedException, ExecutionException {
-		Object result;
+	public ResponseData run() throws InterruptedException, ExecutionException {
+		ResponseData result;
 		if(Build.VERSION.SDK_INT >= 11)
-			result = this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, requestUrl).get();
+			result = (BoardData)this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, requestUrl).get();
 		else 
-			result = this.execute(requestUrl).get();
+			result = (BoardData)this.execute(requestUrl).get();
 		return result;
 	}
 	
@@ -160,7 +161,7 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 	protected void onPostExecute (Object result)
 	{
 		if(exception == null && listener != null) {
-				listener.onComplete(result);
+				listener.onComplete((ResponseData)result);
 		}
 	}	
 	@Override 

@@ -8,6 +8,7 @@ import com.google.api.client.http.HttpRequest;
 import net.daum.apis.android.common.DaumOpenApiSDKException;
 import net.daum.apis.android.conn.RequestListener;
 import net.daum.apis.android.conn.RequestUrl;
+import net.daum.apis.android.conn.ResponseData;
 
 
 public interface Search {
@@ -23,7 +24,7 @@ public interface Search {
 	 * http Request를 동기방식으로 수행한다.
 	 * @return  request 결과값을 해당 API의 데이터모델에 담아 반환한다.
 	 */
-	 public abstract Object run() throws InterruptedException, ExecutionException ;
+	 public abstract ResponseData run() throws InterruptedException, ExecutionException ;
 	 
  	/**
  	 * *
