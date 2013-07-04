@@ -3,7 +3,14 @@ package net.daum.apis.android.search;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import android.os.Build;
+
 import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import net.daum.apis.android.common.DaumOpenApiSDKException;
 import net.daum.apis.android.conn.RequestListener;
@@ -22,6 +29,20 @@ public interface Search {
 	public static final int BOOK = 6;
 	public static final int CAFE = 7;
 	
+	public static final int GINGERBREAD = 9;
+	public static final JsonFactory JSON_FACTORY = new JacksonFactory();
+	
+	/**
+	 * 안드로이드 버전에 따라 http관련 클래스를 다르게 생성한다.
+	 * @return HttpTransport Http전송클래스
+	 */
+	public abstract HttpTransport newCompatibleTransport();
+	
+	/**
+	 * 안드로이드 버전 검사
+	 * @return 현재 안드로이드머신 버전이 진저브래드(API 9 level) 이상인지 여부
+	 */
+	 boolean isGingerbreadOrHigher(); 
 	
 	 /**
 	  * Http Request를 생성한다. 

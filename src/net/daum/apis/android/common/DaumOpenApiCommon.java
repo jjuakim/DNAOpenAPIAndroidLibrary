@@ -43,7 +43,7 @@ public class DaumOpenApiCommon {
 	/**
 	 * The Enum SortType.
 	 */
-	public enum SortType {
+	public enum SearchBoardSortType {
 		
 		/** The accu. */
 		ACCU("accu"),
@@ -59,7 +59,7 @@ public class DaumOpenApiCommon {
 		 *
 		 * @param value the value
 		 */
-		SortType(String value){
+		SearchBoardSortType(String value){
 			this.value = value;
 		}
 		
@@ -73,13 +73,37 @@ public class DaumOpenApiCommon {
 		}
 	}
 	
-	/** The Constant SEARCH_BOARD_REQUEST_URL. */
-	public static final String SEARCH_BOARD_REQUEST_URL = "http://apis.daum.net/search/board";
+	public enum SearchVideoSortType {
+		
+		/** The accu. */
+		ACCURACY("accuracy"),
+		
+		/** The date. */
+		RECENCY("recency");
+		
+		/** The value. */
+		private String value;
+		
+		/**
+		 * Instantiates a new sort type.
+		 *
+		 * @param value the value
+		 */
+		SearchVideoSortType(String value){
+			this.value = value;
+		}
+		
+		/**
+		 * Gets the value.
+		 *
+		 * @return the value
+		 */
+		public String getValue(){
+			return this.value;
+		}
+	}
 	
-	/** The Constant BLOG_REQUEST_URL. */
-	public static final String BLOG_REQUEST_URL = "http://apis.daum.net/search/blog";
-	
-	/** The apikey. */
+		/** The apikey. */
 	private static String APIKEY = "";
 	
 	/**

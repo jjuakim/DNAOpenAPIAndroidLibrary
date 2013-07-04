@@ -6,8 +6,8 @@ import net.daum.apis.android.conn.RequestUrl;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Key;
 
-/** URL for 게시판 검색 API **/
-public class SearchBoardUrl extends GenericUrl implements RequestUrl{	
+/** URL for 동영상 검색 API **/
+public class SearchVideoUrl extends GenericUrl implements RequestUrl{	
 	/**
 	 * API키 
 	 */
@@ -46,28 +46,10 @@ public class SearchBoardUrl extends GenericUrl implements RequestUrl{
 	@Key
 	private String output;
 	
-	public SearchBoardUrl() {
-		super(SEARCH_BOARD_REQUEST_URL);
-	}
-/*		
-	public SearchBoardUrl(String encodedUrl, String q) {
-		super(encodedUrl);
-		this.query = q;
-		this.result = 10;
-		this.pageno = 1;
-		this.sort = SortType.ACCU.getValue();
-		this.output = OutputType.JSON.getValue();
+	public SearchVideoUrl() {
+		super(SEARCH_VIDEO_REQUEST_URL);
 	}
 	
-	public SearchBoardUrl(String encodedUrl, String q, int result, int pageno, SortType sort, OutputType output) {
-		super(encodedUrl);
-		this.query = q;
-		this.result = result;
-		this.pageno = pageno;
-		this.sort = sort.getValue();
-		this.output = output.getValue();
-	}
-*/
 	public void setQuery(String query) {
 		this.query = query;
 	}

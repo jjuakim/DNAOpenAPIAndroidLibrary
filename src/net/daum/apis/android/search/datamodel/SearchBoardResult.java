@@ -9,7 +9,7 @@ import net.daum.apis.android.conn.ResponseData;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
 
-public class BoardResult  {
+public class SearchBoardResult  {
 	@Key("channel")
 	private BoardData boardData;
 	
@@ -90,17 +90,17 @@ public class BoardResult  {
 	
 	public static class BoardItem {
 		@Key
-		public String title; // string 개별 검색 결과의 제목
+		private String title; // string 개별 검색 결과의 제목
 		@Key
-		public String description; // string 개별 검색 결과의 본문 요약
+		private String description; // string 개별 검색 결과의 본문 요약
 		@Key
-		public String link; // string 개별 검색 결과의 link url
+		private String link; // string 개별 검색 결과의 link url
 		@Key
-		public String comment; // string 관련 링크
+		private String comment; // string 관련 링크
 		@Key
-		public String author; // string 출처
+		private String author; // string 출처
 		@Key
-		public String pubDate; // 등록일
+		private String pubDate; // 등록일
 
 		public String getTitle() {
 			return title;

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import net.daum.apis.android.common.DaumOpenApiCommon.OutputType;
-import net.daum.apis.android.common.DaumOpenApiCommon.SearchBoardSortType;
+import net.daum.apis.android.common.DaumOpenApiCommon.SearchVideoSortType;
 import net.daum.apis.android.common.DaumOpenApiSDKException;
 import net.daum.apis.android.conn.RequestListener;
 import net.daum.apis.android.conn.RequestUrl;
 import net.daum.apis.android.conn.ResponseData;
-import net.daum.apis.android.search.datamodel.SearchBoardResult;
-import net.daum.apis.android.search.datamodel.SearchBoardResult.BoardData;
+import net.daum.apis.android.search.datamodel.SearchVideoResult;
+import net.daum.apis.android.search.datamodel.SearchVideoResult.VideoData;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -25,20 +25,20 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonObjectParser;
 
-public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implements Search{
+public class SearchVideo extends AsyncTask<RequestUrl, Integer, Object> implements Search{
 	//http Request 관련 
-	private SearchBoardUrl requestUrl = new SearchBoardUrl(); 
+	private SearchVideoUrl requestUrl = new SearchVideoUrl(); 
 	public final HttpTransport HTTP_TRANSPORT = newCompatibleTransport();
 	
 	@Override
 	public HttpTransport newCompatibleTransport() {
 		return isGingerbreadOrHigher() ? new NetHttpTransport() : new ApacheHttpTransport();
 	}
-	
+
 	@Override
 	public boolean isGingerbreadOrHigher() {
 		return Build.VERSION.SDK_INT >= GINGERBREAD;
-	} 
+	}
 	
 	//동기화처리 관련
 	private RequestListener listener; 
@@ -46,24 +46,18 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 	//에러핸들링
 	/** The exception. */
 	private DaumOpenApiSDKException exception;
-	private static final String TAG = "SearchBoard";
-
+	private static final String TAG = "SearchVideo";
 	
-	/**
-	 * Instantiates a new search board.
-	 *
-	 * @param q the q
-	 */
-	public SearchBoard(String q) {	
+	public SearchVideo(String q) {	
 		super();
 		requestUrl.setQuery(q);
 		requestUrl.setResult(10);
 		requestUrl.setPageno(1);
-		requestUrl.setSort(SearchBoardSortType.ACCU.getValue());
+		requestUrl.setSort(SearchVideoSortType.ACCURACY.getValue());
 		requestUrl.setOutput(OutputType.JSON.getValue());
 	}
 	
-	public SearchBoard(String q, int result, int pageno, SearchBoardSortType sort, OutputType output) {
+	public SearchVideo(String q, int result, int pageno, SearchVideoSortType sort, OutputType output) {
 		super();
 		requestUrl.setQuery(q);
 		requestUrl.setResult(result);
@@ -71,6 +65,7 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 		requestUrl.setSort(sort.getValue());
 		requestUrl.setOutput(output.getValue());
 	}
+	
 	
 	
 	@Override
@@ -84,28 +79,28 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 		HttpRequest request = requestFactory.buildGetRequest((GenericUrl) url);
 		return request;
 	}
-	
-	
+
 	@Override
 	public ResponseData run() throws InterruptedException, ExecutionException {
 		ResponseData result;
 		if(Build.VERSION.SDK_INT >= 11)
-			result = (BoardData)this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, requestUrl).get();
+			result = (VideoData)this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, requestUrl).get();
 		else 
-			result = (BoardData)this.execute(requestUrl).get();
+			result = (VideoData)this.execute(requestUrl).get();
 		return result;
 	}
-	
-	
+
 	@Override
-	public void runAsync(final RequestListener listener) throws InterruptedException, ExecutionException, DaumOpenApiSDKException{
+	public void runAsync(RequestListener listener)
+			throws DaumOpenApiSDKException, IOException, InterruptedException,
+			ExecutionException {
 		this.listener = listener;
 		if(Build.VERSION.SDK_INT >= 11)
 			this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, requestUrl);
 		else
-			this.execute(requestUrl);
+			this.execute(requestUrl);		
 	}
-	
+
 	@SuppressWarnings("unused")
 	@Override
 	protected Object doInBackground(RequestUrl... urls) {
@@ -120,8 +115,8 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 					throw exception;
 				}
 				else {
-					SearchBoardResult channel = response.parseAs(SearchBoardResult.class);
-					if(channel.getBoardData() == null) {
+					SearchVideoResult channel = response.parseAs(SearchVideoResult.class);
+					if(channel.getVideoData() == null) {
 						//다시연결해서 에러메시지 받아옴
 						DaumOpenApiSDKException errorResponse = request.execute().parseAs(DaumOpenApiSDKException.class);
 						this.exception = errorResponse;
@@ -129,7 +124,7 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 					}
 					else {
 						//데이터 정상 수신
-						return channel.getBoardData();
+						return channel.getVideoData();
 					}
 				}
 			}
@@ -162,5 +157,5 @@ public class SearchBoard extends AsyncTask<RequestUrl, Integer, Object> implemen
 		}
 	}
 	
-	
+
 }
